@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alastair Cook | Player Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#0b132b;
+  --card:rgba(255,255,255,.08);
+  --text:#ffffff;
+  --accent:#ffd700;
+}
+body.light{
+  --bg:#f9fafb;
+  --card:#ffffff;
+  --text:#020617;
+  --accent:#ef4444;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:.4s;
+}
+
+/* HEADER */
+header{
+  padding:100px 20px;
+  text-align:center;
+  background:linear-gradient(120deg,var(--accent),#020617);
+}
+header img{
+  width:230px;
+  border-radius:25px;
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+/* SECTIONS */
+section{
+  max-width:950px;
+  margin:70px auto;
+  background:var(--card);
+  padding:30px;
+  border-radius:20px;
+  opacity:0;
+  transform:translateY(80px) scale(.95);
+  transition:.8s ease;
+}
+section.show{
+  opacity:1;
+  transform:none;
+}
+h2{color:var(--accent)}
+p{line-height:1.9;text-align:justify}
+
+/* BUTTON */
+.back-btn{
+  display:block;
+  margin:60px auto;
+  padding:14px 34px;
+  background:var(--accent);
+  color:#000;
+  border-radius:40px;
+  font-weight:bold;
+  text-decoration:none;
+  width:max-content;
+  transition:.3s;
+}
+.back-btn:hover{transform:scale(1.05)}
+
+/* ARROWS */
+.arrow{
+  position:fixed;
+  right:25px;
+  background:var(--accent);
+  color:#000;
+  padding:14px;
+  border-radius:50%;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+}
+.arrow.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.arrow.top{bottom:90px}
+.arrow.bottom{bottom:30px}
+
+/* TOGGLE */
+.toggle{
+  position:fixed;
+  left:25px;
+  bottom:30px;
+  background:var(--accent);
+  color:#000;
+  padding:14px 20px;
+  border-radius:30px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:40px;
+  background:#020617;
+  color:var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="cook.png" alt="Alastair Cook">
+  <h1>Alastair Cook 🇬🇧</h1>
+  <p>England’s Greatest Test Opener</p>
+</header>
+
+<section>
+  <h2>Biography</h2>
+  <p>Alastair Cook was England’s most dependable opening batsman, known for patience and endurance.</p>
+</section>
+
+<section>
+  <h2>Career</h2>
+  <p>He retired as England’s highest Test run-scorer and a successful captain.</p>
+</section>
+
+<section>
+  <h2>Why Underrated</h2>
+  <p>His simple style hid extraordinary mental strength.</p>
+</section>
+
+<section>
+  <h2>Playing Style</h2>
+  <p>Solid defense, long innings, and unmatched stamina.</p>
+</section>
+
+<a href="index.html" class="back-btn">⬅ Back to Main Website</a>
+
+<div class="arrow top" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</div>
+<div class="arrow bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">⬇</div>
+
+<div class="toggle">🌙 Mode</div>
+
+<footer>Patience • Leadership • Endurance</footer>
+
+<script>
+const sections=document.querySelectorAll("section");
+const topArrow=document.querySelector(".arrow.top");
+const bottomArrow=document.querySelector(".arrow.bottom");
+const toggle=document.querySelector(".toggle");
+
+/* SCROLL REVEAL */
+function reveal(){
+  sections.forEach(s=>{
+    if(s.getBoundingClientRect().top<innerHeight-120){
+      s.classList.add("show");
+    }
+  });
+  if(scrollY>300){
+    topArrow.classList.add("show");
+    bottomArrow.classList.add("show");
+  }else{
+    topArrow.classList.remove("show");
+    bottomArrow.classList.remove("show");
+  }
+}
+window.addEventListener("scroll",reveal);
+window.addEventListener("load",reveal);
+
+/* DARK / LIGHT MODE */
+if(localStorage.mode==="light")document.body.classList.add("light");
+toggle.onclick=()=>{
+  document.body.classList.toggle("light");
+  localStorage.mode=document.body.classList.contains("light")?"light":"dark";
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB de Villiers | Cricket Legend</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f5f5f5;
+  --text:#1a1a1a;
+  --accent:#ff4500;
+}
+body.dark{
+  --bg:#1a1a1a;
+  --text:#f5f5f5;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:.4s;
+}
+
+/* HEADER (HERO) */
+header{
+  padding:100px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#ff4500,#ff6a00);
+  color:white;
+}
+header img{
+  width:260px;
+  max-width:90%;
+  border-radius:25px;
+  box-shadow:0 25px 45px rgba(0,0,0,.6);
+  margin-bottom:25px;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+header h1{font-size:3em}
+header p{font-size:1.4em;margin-top:10px}
+
+/* SECTIONS */
+section{
+  max-width:1000px;
+  margin:60px auto;
+  padding:30px;
+  background:rgba(255,69,0,.05);
+  border-radius:20px;
+  opacity:0;
+  transform:translateY(60px);
+  transition:.8s;
+}
+section.show{
+  opacity:1;
+  transform:none;
+}
+h2{color:var(--accent);margin-bottom:12px}
+p,li{line-height:1.8}
+
+/* BACK BUTTON */
+.back-button{
+  display:block;
+  width:max-content;
+  margin:60px auto;
+  padding:16px 40px;
+  background:var(--accent);
+  color:white;
+  border-radius:50px;
+  font-weight:bold;
+  text-decoration:none;
+  transition:.3s;
+}
+.back-button:hover{transform:scale(1.1)}
+
+/* ARROWS */
+.arrow{
+  position:fixed;
+  right:25px;
+  background:var(--accent);
+  color:white;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  cursor:pointer;
+  opacity:0;
+  transition:.4s;
+}
+.arrow.show{opacity:1}
+#up{bottom:90px}
+#down{bottom:25px}
+
+/* MODE BUTTON */
+#mode{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--accent);
+  color:white;
+  padding:12px 20px;
+  border-radius:40px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+  background:#ff4500;
+  color:white;
+  text-align:center;
+  padding:40px;
+  font-size:1.4em;
+}
+</style>
+</head>
+
+<body>
+
+<button id="mode">Dark Mode</button>
+
+<header>
+  <img src="ABD.jpg" alt="AB de Villiers">
+  <h1>AB de Villiers</h1>
+  <p>Mr. 360° – Revolutionizing Cricket Forever</p>
+</header>
+
+<section>
+  <h2>Biography</h2>
+  <p>Abraham Benjamin de Villiers is one of the most innovative batsmen cricket has ever seen. Born in Pretoria, South Africa, his ability to dominate every format earned him legendary status.</p>
+</section>
+
+<section>
+  <h2>Career Achievements</h2>
+  <ul>
+    <li>Fastest 50, 100, and 150 in ODI cricket</li>
+    <li>Over 8,000 ODI runs at an average above 50</li>
+    <li>RCB icon and IPL superstar</li>
+    <li>Respected leader and sportsman</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Memorable Moments</h2>
+  <p>From record-breaking innings to impossible chase finishes, AB de Villiers redefined modern batting with creativity and fearlessness.</p>
+</section>
+
+<a href="index.html" class="back-button">⬅ Back to Main Website</a>
+
+<footer>
+  AB de Villiers – The Genius Who Redefined Cricket
+</footer>
+
+<div id="up" class="arrow" onclick="scrollTo({top:0,behavior:'smooth'})">⬆</div>
+<div id="down" class="arrow" onclick="scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">⬇</div>
+
+<script>
+const sections=document.querySelectorAll("section");
+const arrows=document.querySelectorAll(".arrow");
+const mode=document.getElementById("mode");
+
+function reveal(){
+  sections.forEach(s=>{
+    if(s.getBoundingClientRect().top<innerHeight-120){
+      s.classList.add("show");
+    }
+  });
+  arrows.forEach(a=>a.classList.toggle("show",scrollY>300));
+}
+addEventListener("scroll",reveal);
+addEventListener("load",reveal);
+
+mode.onclick=()=>{
+  document.body.classList.toggle("dark");
+  mode.textContent=document.body.classList.contains("dark")?"Light Mode":"Dark Mode";
+};
+</script>
+
+</body>
+</html>

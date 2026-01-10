@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aasif Sheikh | Nepal Cricket Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI", Arial, sans-serif;
+  scroll-behavior:smooth;
+}
+
+/* ===== BODY ===== */
+body{
+  background:#0b1020;
+  color:#e5e7eb;
+  transition:0.5s;
+}
+
+body.light{
+  background:#f4f6fb;
+  color:#111827;
+}
+
+/* ===== MODE BUTTON ===== */
+.mode-btn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  padding:12px 20px;
+  background:#ffd700;
+  color:#000;
+  font-weight:bold;
+  border-radius:25px;
+  cursor:pointer;
+  z-index:1000;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* ===== HEADER ===== */
+header{
+  padding:90px 20px;
+  text-align:center;
+  background: linear-gradient(135deg, #1e3a8a, #020617, #1e3a8a);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  border-radius:15px;
+}
+
+@keyframes gradientShift{
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+header img{
+  width:230px;
+  border-radius:50%;
+  border:5px solid #ffd700;
+  box-shadow:0 30px 50px rgba(0,0,0,0.7);
+  animation:scaleIn 1.5s ease;
+}
+
+@keyframes scaleIn{
+  from{transform:scale(0);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+header h1{
+  margin-top:20px;
+  font-size:44px;
+  color:#ffd700;
+}
+
+header p{
+  margin-top:10px;
+  font-size:18px;
+  opacity:0;
+  animation:fadeUp 1.5s ease forwards;
+  animation-delay:1s;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== SECTIONS ===== */
+section{
+  max-width:1000px;
+  margin:80px auto;
+  padding:35px;
+  background:rgba(255,255,255,0.06);
+  border-radius:20px;
+  opacity:0;
+  transform:rotateY(90deg);
+  transition:1s;
+}
+
+section.show{
+  opacity:1;
+  transform:rotateY(0);
+}
+
+body.light section{
+  background:rgba(0,0,0,0.06);
+}
+
+section h2{
+  color:#ffd700;
+  margin-bottom:15px;
+}
+
+section p{
+  line-height:1.9;
+  text-align:justify;
+}
+
+/* ===== ARROW BUTTONS ===== */
+.arrow{
+  position:fixed;
+  right:25px;
+  padding:15px;
+  background:#ffd700;
+  color:#000;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,0.5);
+  animation:bounce 2s infinite;
+}
+
+.arrow.top{bottom:90px}
+.arrow.bottom{bottom:30px}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn{
+  display:block;
+  margin:70px auto;
+  padding:14px 38px;
+  background:#ffd700;
+  color:#000;
+  border-radius:40px;
+  font-weight:bold;
+  text-decoration:none;
+  width:max-content;
+  box-shadow:0 12px 25px rgba(0,0,0,0.4);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:45px 20px;
+  background:#020617;
+  color:#ffd700;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MODE TOGGLE -->
+<div class="mode-btn" onclick="toggleMode()">Dark / Light</div>
+
+<!-- HEADER -->
+<header>
+  <img src="aasif.png" alt="Aasif Sheikh">
+  <h1>Aasif Sheikh 🇳🇵</h1>
+  <p>Elegant Top-Order Batsman of Nepal</p>
+</header>
+
+<!-- CONTENT -->
+<section>
+  <h2>Biography</h2>
+  <p>
+    Aasif Sheikh is a professional Nepali cricketer known for his elegant
+    batting technique and calm temperament. He represents Nepal at the
+    international level and has become a dependable top-order batsman.
+  </p>
+</section>
+
+<section>
+  <h2>Cricket Career</h2>
+  <p>
+    Aasif Sheikh rose through Nepal’s domestic cricket system with consistent
+    performances. His solid technique and patience helped him secure a place
+    in the national team, where he has contributed in both ODI and T20 formats.
+  </p>
+</section>
+
+<section>
+  <h2>Why He Is Underrated</h2>
+  <p>
+    Playing for an emerging cricket nation limits global exposure. Despite
+    producing quality performances, Aasif Sheikh often remains unnoticed on
+    the international stage.
+  </p>
+</section>
+
+<section>
+  <h2>Playing Style & Strengths</h2>
+  <p>
+    A right-handed batsman, Aasif Sheikh is known for timing, footwork, and
+    composure. He builds innings patiently and plays an anchoring role when
+    required, making him vital for Nepal’s batting lineup.
+  </p>
+</section>
+
+<!-- BACK BUTTON -->
+<a href="index.html" class="back-btn">⬅ Back to Main Website</a>
+
+<!-- ARROWS -->
+<div class="arrow top" onclick="scrollTo({top:0,behavior:'smooth'})">⬆</div>
+<div class="arrow bottom" onclick="scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">⬇</div>
+
+<!-- FOOTER -->
+<footer>
+  Discipline • Technique • Nepal Cricket
+</footer>
+
+<script>
+function toggleMode(){
+  document.body.classList.toggle("light");
+}
+
+const sections = document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+  sections.forEach(sec=>{
+    if(sec.getBoundingClientRect().top < window.innerHeight - 120){
+      sec.classList.add("show");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
