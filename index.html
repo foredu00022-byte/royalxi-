@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏏 Cricket Legacy | Yubaraj Yadav</title>
+    <style>
+        /* ===== CORE STYLE ===== */
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0; font-family: "Arial Black", sans-serif;
+            background: #000; color: #fff; overflow-x: hidden;
+        }
+
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 5px;
+            background: #FFD700; width: 0%; z-index: 2000;
+            box-shadow: 0 0 15px #FFD700;
+        }
+
+        .void-container { 
+            position: fixed; inset: 0; z-index: -500; background: #000; overflow: hidden; pointer-events: none; 
+        }
+        #starfield { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; transition: transform 0.2s ease-out; }
+        .pixel { position: absolute; background: #FFD700; border-radius: 50%; animation: zoomPixel linear infinite; }
+        @keyframes zoomPixel { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(4); opacity: 0; } }
+
+        /* ===== PRELOADER SECTIONS ===== */
+        #preloader {
+            position: fixed; inset: 0; display: none; 
+            justify-content: center; align-items: center; z-index: 9999; background: #000;
+        }
+        .no-scroll { overflow: hidden !important; height: 100vh !important; }
+
+        #vidStage { 
+            opacity: 0; transform: scale(0.8); transition: 1s ease-in-out; text-align: center; position: relative;
+        }
+        #vidStage.active { opacity: 1; transform: scale(1.1); }
+        #vidStage.fade-out { opacity: 0; transform: scale(1.3); filter: blur(20px); }
+
+        .corner { position: absolute; width: 40px; height: 40px; border: 3px solid #FFD700; z-index: 10; opacity: 0.6; }
+        .tl { top: -20px; left: -20px; border-right: 0; border-bottom: 0; }
+        .tr { top: -20px; right: -20px; border-left: 0; border-bottom: 0; }
+        .bl { bottom: -20px; left: -20px; border-right: 0; border-top: 0; }
+        .br { bottom: -20px; right: -20px; border-left: 0; border-top: 0; }
+
+        #introVid { width: min(85vw, 500px); border-radius: 40px; border: 2px solid rgba(255, 215, 0, 0.5); }
+
+        /* Stage 2: Full Screen Video (No Text) */
+        #nameStage { position: fixed; inset: 0; display: none; z-index: 10000; background: #000; }
+        .full-screen-vid { width: 100%; height: 100%; object-fit: cover; }
+
+        .skip-btn {
+            position: fixed; bottom: 40px; right: 40px; padding: 12px 28px; border: 2px solid #FFD700;
+            background: rgba(0, 0, 0, 0.8); color: #FFD700; font-weight: bold; border-radius: 50px; cursor: pointer; z-index: 10005;
+        }
+
+        #preloader.finish { opacity: 0; transition: 0.8s; pointer-events: none; }
+
+        /* ===== MAIN NAVIGATION ===== */
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 60px; background: rgba(0, 0, 0, 0.9); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #FFD700; }
+        .nav-links a { text-decoration: none; color: #777; font-size: 11px; font-weight: 900; padding: 10px 15px; letter-spacing: 2px; transition: 0.4s; }
+        .nav-links a:hover { color: #FFD700; }
+
+        .hero { height: 180vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero h1 { font-size: clamp(40px, 8vw, 80px); line-height: 1.1; margin-bottom: 40px; }
+        .hero-img-wrap { width: 90%; max-width: 1000px; border-radius: 40px; overflow: hidden; border: 2px solid #FFD700; }
+        .hero img { width: 100%; display: block; filter: brightness(0.8); }
+
+        /* ===== CONTENT SECTIONS ===== */
+        .section { 
+            opacity: 0; transform: translateY(80px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(20px); 
+            margin: 100px auto; padding: 60px; border-radius: 50px; max-width: 1100px; border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        .section.reveal { opacity: 1; transform: translateY(0); }
+
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .card-box, .box { 
+            background: rgba(255, 255, 255, 0.03); padding: 40px; border-radius: 30px; 
+            border: 1px solid rgba(255, 215, 0, 0.1); transition: 0.4s; color: #fff; text-decoration: none; 
+        }
+        .card-box:hover, .box:hover { border-color: #FFD700; background: rgba(255, 215, 0, 0.05); transform: translateY(-10px); }
+        
+        .stat-num { font-size: 45px; color: #FFD700; font-weight: 900; display: block; }
+        .btn { display: inline-block; margin-top: 15px; padding: 10px 25px; background: #FFD700; color: #000; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; }
+
+        footer { text-align: center; padding: 100px 0; border-top: 2px solid #FFD700; margin-top: 100px; }
+
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .nav { padding: 15px 20px; } }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="void-container"><div id="starfield"></div></div>
+
+<div id="preloader">
+    <button class="skip-btn" id="skipBtn">SKIP INTRO ❯</button>
+    <div id="vidStage">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <video id="introVid" muted loop playsinline><source src="intro.mp4" type="video/mp4"></video>
+        <h1 id="loadText" style="color:#FFD700; margin-top:25px; letter-spacing: 5px;">🏏 INITIALIZING CORE: 0%</h1>
+    </div>
+    <div id="nameStage">
+        <video id="fullScreenVid" class="full-screen-vid" muted playsinline>
+            <source src="background-video.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<nav class="nav">
+    <img src="logo.png" height="45" id="secretBtn" style="cursor:pointer;" alt="Logo">
+    <div class="nav-links">
+        <a href="#about">ABOUT</a>
+        <a href="#skills">SKILLS</a>
+        <a href="#legends">LEGENDS</a>
+        <a href="#underrated">GEMS</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>BEYOND THE<br><span style="color: #FFD700;">BOUNDARY</span></h1>
+    <div class="hero-img-wrap"><img src="hero.jpg" alt="Hero"></div>
+</div>
+
+<div class="section" id="about">
+    <h2 style="color:#FFD700; font-size: 32px; margin-bottom: 30px;">About My Hobby</h2>
+    <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1.2; min-width: 300px;">
+            <p style="font-size: 20px; line-height: 1.8; color: #ccc;">Cricket is more than a game; it is my identity. It demands precision, mental toughness, and a warrior's spirit.</p>
+        </div>
+        <div style="flex: 0.8; min-width: 300px;"><img src="about-cricket.png" style="width:100%; border-radius:20px; border:1px solid #FFD700;"></div>
+    </div>
+</div>
+
+
+<div class="section" id="skills">
+    <h2 style="color:#FFD700; text-align: center; margin-bottom: 40px;">Game Performance</h2>
+    <div class="grid">
+        <div class="card-box"><span class="stat-num" data-target="95">0</span><h3>Batting Timing %</h3><p>Finding the gap consistently.</p></div>
+        <div class="card-box"><span class="stat-num" data-target="88">0</span><h3>Bowling Accuracy %</h3><p>Perfecting line and length.</p></div>
+        <div class="card-box"><span class="stat-num" data-target="92">0</span><h3>Fielding Reflexes %</h3><p>Sub-second reaction times.</p></div>
+        <div class="card-box"><span class="stat-num" data-target="100">0</span><h3>Passion Score</h3><p>Unmatched dedication to the game.</p></div>
+    </div>
+</div>
+
+<div class="section" id="legends">
+    <h2 style="color:#FFD700; text-align: center; margin-bottom: 40px;">🏆 Hall of Fame</h2>
+    <div class="grid">
+        <div class="card-box"><h3>Sachin Tendulkar</h3><p>The God of Cricket.</p></div>
+        <div class="card-box"><h3>Virat Kohli</h3><p>Modern Day King.</p></div>
+        <div class="card-box"><h3>MS Dhoni</h3><p>The Ultimate Finisher.</p></div>
+        <div class="card-box"><h3>AB de Villiers</h3><p>Mr. 360 Genius.</p></div>
+        <div class="card-box"><h3>Kane Williamson</h3><p>Spirit of the Game.</p></div>
+        <div class="card-box"><h3>Ben Stokes</h3><p>Clutch Performer.</p></div>
+    </div>
+</div>
+
+<div class="section" id="underrated">
+    <h2 style="color:#FFD700; text-align: center; margin-bottom: 40px;">⭐ Underrated Gems</h2>
+    <div class="grid">
+        <div class="box"><h3>Lalit Rajbanshi 🇳🇵</h3><p>Nepal's Spin Wizard.</p></div>
+        <div class="box"><h3>Aasif Sheikh 🇳🇵</h3><p>Consistent Opener.</p></div>
+        <div class="box"><h3>Dipendra Singh Airee 🇳🇵</h3><p>Powerhouse All-rounder.</p></div>
+        <div class="box"><h3>Anil Sah 🇳🇵</h3><p>Rising Keeper Hero.</p></div>
+        <div class="box"><h3>Jacques Kallis 🇿🇦</h3><p>Greatest All-rounder.</p></div>
+        <div class="box"><h3>Rahul Dravid 🇮🇳</h3><p>The Great Wall.</p></div>
+        <div class="box"><h3>Michael Hussey 🇦🇺</h3><p>Mr. Cricket.</p></div>
+        <div class="box"><h3>Sikandar Raza 🇿🇼</h3><p>Zimbabwe's Pride.</p></div>
+        <div class="box"><h3>Alastair Cook 🇬🇧</h3><p>Test Legend.</p></div>
+        <div class="box"><h3>Stuart MacGill 🇦🇺</h3><p>Leg-spin Master.</p></div>
+    </div>
+</div>
+
+<div class="section" id="webs">
+    <h2 style="color:#FFD700; text-align: center; margin-bottom: 40px;">🌐 Official Portals</h2>
+    <div class="grid">
+        <a href="https://www.icc-cricket.com" target="_blank" class="card-box"><h3>ICC Official</h3></a>
+        <a href="https://www.espncricinfo.com" target="_blank" class="card-box"><h3>ESPN Cricinfo</h3></a>
+        <a href="https://www.cricbuzz.com" target="_blank" class="card-box"><h3>Cricbuzz</h3></a>
+        <a href="https://www.bcci.tv" target="_blank" class="card-box"><h3>BCCI Portal</h3></a>
+    </div>
+</div>
+
+<footer>
+    <h2 style="letter-spacing: 10px; color: #FFD700;">YUBARAJ YADAV</h2>
+    <p>CRICKET ENTHUSIAST | 2026</p>
+</footer>
+
+<script>
+    const preloader = document.getElementById("preloader"),
+          vidStage = document.getElementById("vidStage"),
+          nameStage = document.getElementById("nameStage"),
+          introVid = document.getElementById("introVid"),
+          fullScreenVid = document.getElementById("fullScreenVid"),
+          loadText = document.getElementById("loadText"),
+          skipBtn = document.getElementById("skipBtn"),
+          secretBtn = document.getElementById("secretBtn");
+
+    function startSecondStage() {
+        vidStage.classList.add("fade-out");
+        setTimeout(() => {
+            vidStage.style.display = "none";
+            nameStage.style.display = "block";
+            fullScreenVid.play().catch(() => finishEverything());
+            fullScreenVid.onended = finishEverything;
+            setTimeout(() => { if(!preloader.classList.contains("finish")) finishEverything(); }, 9000);
+        }, 1000);
+    }
+
+    function finishEverything() {
+        preloader.classList.add("finish");
+        document.body.classList.remove("no-scroll");
+        sessionStorage.setItem('introDone', 'true');
+        setTimeout(() => { preloader.style.display = "none"; }, 1000);
+    }
+
+    skipBtn.onclick = finishEverything;
+    secretBtn.onclick = () => { sessionStorage.removeItem('introDone'); window.location.reload(); };
+
+    function init() {
+        if (sessionStorage.getItem('introDone') === 'true') {
+            preloader.style.display = "none";
+            document.body.classList.remove("no-scroll");
+        } else {
+            document.body.classList.add("no-scroll");
+            preloader.style.display = "flex";
+            vidStage.style.display = "block";
+            introVid.play().catch(() => {});
+            setTimeout(() => vidStage.classList.add("active"), 100);
+
+            let count = 0;
+            let counter = setInterval(() => {
+                count += Math.floor(Math.random() * 8) + 1;
+                if(count >= 100) { count = 100; clearInterval(counter); startSecondStage(); }
+                loadText.innerText = `🏏 INITIALIZING CORE: ${count}%`;
+            }, 180);
+        }
+    }
+
+    function animateStats() {
+        document.querySelectorAll('.stat-num').forEach(stat => {
+            const target = +stat.getAttribute('data-target');
+            let current = 0;
+            const update = () => {
+                if(current < target) {
+                    current += target / 40;
+                    stat.innerText = Math.ceil(current) + "%";
+                    setTimeout(update, 30);
+                } else { stat.innerText = target + "%"; }
+            };
+            update();
+        });
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { 
+            if (e.isIntersecting) { 
+                e.target.classList.add('reveal'); 
+                if(e.target.id === 'skills') animateStats(); 
+            } 
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+    window.onload = init;
+</script>
+</body>
+</html>
